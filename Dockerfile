@@ -18,6 +18,12 @@ RUN apt-get install --no-install-recommends -y \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    python3-dev \
+    # Add any other required system libraries here, e.g., libssl-dev, libmysqlclient-dev
+    && rm -rf /var/lib/apt/lists/*
+
 ######################################################
 # FLYWHEEL GEAR STUFF...
 
@@ -33,6 +39,8 @@ RUN apt-get update &&\
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+# isntall errors pyzmq
+RUN pip install --upgrade pip setuptools
 
 # Install poetry based on their preferred method. pip install is finnicky.
 # Designate the install location, so that you can find it in Docker.
@@ -50,15 +58,17 @@ RUN python -m pip install --upgrade pip && \
 ENV PATH="$POETRY_HOME/bin:$PATH"
 
 # get-poetry respects ENV
-RUN curl -sSL https://install.python-poetry.org | python3 - ;\
-    ln -sf ${POETRY_HOME}/lib/poetry/_vendor/py3.9 ${POETRY_HOME}/lib/poetry/_vendor/py3.8; \
-    chmod +x "$POETRY_HOME/bin/poetry"
+RUN curl -sSL https://install.python-poetry.org | python3 - ;
+
+# RUN curl -sSL https://install.python-poetry.org | python3 - ;\
+#    ln -sf ${POETRY_HOME}/lib/poetry/_vendor/py3.9 ${POETRY_HOME}/lib/poetry/_vendor/py3.8; \
+#    chmod +x "$POETRY_HOME/bin/poetry"
 
 # Installing main dependencies
 ARG FLYWHEEL=/flywheel/v0
 COPY pyproject.toml poetry.lock $FLYWHEEL/
 WORKDIR $FLYWHEEL
-RUN poetry install --no-root --no-dev
+RUN poetry install --no-root
 
 # add bc
 RUN apt update &&\
