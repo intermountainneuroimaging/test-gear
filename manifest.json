@@ -1,0 +1,117 @@
+{
+  "author": "Intermountain Neuroimaging Consortium",
+  "cite": "",
+  "command": "poetry run python /flywheel/v0/run.py",
+  "config": {
+    "gear-writable-dir": {
+      "default": "/pl/active/ics/fw_temp_data",
+      "description": "Gears expect to be able to write temporary files in /flywheel/v0/.  If this location is not writable (such as when running in Singularity), this path will be used instead.  mriQC creates a large number of files so this disk space should be fast and local.",
+      "type": "string"
+    },
+    "slurm-cpu": {
+      "default": "8",
+      "description": "[SLURM] How many cpu-cores to request per command/task. This is used for the underlying '--cpus-per-task' option. If not running on HPC, then this flag is ignored",
+      "type": "string"
+    },
+    "slurm-ram": {
+      "default": "4G",
+      "description": "[SLURM] How much RAM to request. This is used for the underlying '--mem-per-cpu' option. If not running on HPC, then this flag is ignored",
+      "type": "string"
+    },
+    "slurm-ntasks": {
+      "default": "1",
+      "description": "[SLURM] Total number of tasks/commands across all nodes (not equivalent to neuroimaging tasks). Using a value greater than 1 for code that has not been parallelized will not improve performance (and may break things).",
+      "type": "string"
+    },
+    "slurm-nodes": {
+      "default": "1",
+      "description": "[SLURM] How many HPC nodes to run on",
+      "type": "string"
+    },
+    "slurm-partition": {
+      "default": "blanca-ics",
+      "description": "[SLURM] Blanca, Alpine, or Summit partitions can be entered",
+      "type": "string"
+    },
+    "slurm-qos": {
+      "default": "blanca-ics",
+      "description": "[SLURM] For Blanca the QOS has a different meaning, ie blanca-ics vs blanca-ibg, etc. For Alpine and Summit, the QOS should be set to normal if running a job for 1 day or less, and set to long if running a job with a maximum walltime of 7 days",
+      "type": "string"
+    },
+    "slurm-account": {
+      "default": "blanca-ics",
+      "description": "[SLURM] For Blanca the ACCOUNT should be set to the sub-account of choice (e.g. blanca-ics-rray). For Alpine, the account should be set to ucb-general, or the specialized account granted by RC: ucb278_asc1",
+      "type": "string"
+    },
+    "slurm-time": {
+      "default": "1428",
+      "description": "[SLURM] Maximum walltime requested after which your job will be cancelled if it hasn't finished. Default to 1 day",
+      "type": "string"
+    }
+  },
+"custom": {
+    "analysis-level": "participant",
+    "flywheel": {
+      "classification": {
+        "function": [
+          "Quality Assurance"
+        ],
+        "modality": [
+          "MR"
+        ],
+        "organ": [
+          "Brain"
+        ],
+        "species": [
+          "Human"
+        ]
+      },
+      "show-job": true,
+      "suite": "zDevelopment"
+    },
+    "gear-builder": {
+      "category": "analysis",
+      "image": "amhe4269/test-gear:inc0.0rc2"
+    },
+    "license": {
+      "dependencies": {},
+      "main": {
+        "name": "MIT"
+      },
+      "non-commercial-use-only": true
+    }
+  },
+  "description": "(HPC Compatible) Test gear for HPC functionality.",
+  "environment": {
+    "CONDA_PATH": "/opt/conda",
+    "CPATH": "/opt/conda/include:",
+    "FLYWHEEL": "/flywheel/v0",
+    "HOME": "/home/flywheel",
+    "LANG": "en_US.UTF-8",
+    "LC_ALL": "en_US.UTF-8",
+    "LD_LIBRARY_PATH": "/opt/conda/lib:/usr/lib/x86_64-linux-gnu:/lib",
+    "MAMBA_ROOT_PREFIX": "/opt/conda",
+    "PATH": "/opt/conda/bin:/opt/afni:/opt/conda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+    "PWD": "/flywheel/v0",
+    "PYTHONNOUSERSITE": "1",
+    "PYTHONUNBUFFERED": "1"
+  },
+  "inputs": {
+    "api-key": {
+      "base": "api-key",
+      "read-only": false
+    },
+    "sample_data": {
+      "base": "file",
+      "description": "Sample data used for download and upload testing.",
+      "optional": true
+    }
+  },
+  "label": "HPC Test Gear",
+  "license": "Other",
+  "maintainer": "Flywheel <support@flywheel.io>",
+  "name": "test-gear",
+  "source": "",
+  "url": "",
+  "version": "inc0.0rc2"
+}

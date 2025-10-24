@@ -1,0 +1,14 @@
+# Exclude everything (faster to build docker context)
+**
+
+# Except package dirs, run.py, poetry files, tests, .pre-commit-config, .git and README
+!pyproject.toml
+!poetry.lock
+!run.py
+!manifest.json
+!fw_gear_fw_example
+!README.md
+!requirements.txt
+
+# Re-ignore pycache which might be inside package dir
+**/__pycache__
